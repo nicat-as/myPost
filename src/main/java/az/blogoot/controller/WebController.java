@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import az.blogoot.domain.User;
 import az.blogoot.service.UserService;
-import jdk.internal.jshell.tool.resources.l10n;
 
 /**
  * WebController
@@ -31,14 +30,14 @@ public class WebController {
         ModelAndView modelAndView = new ModelAndView();
         User user = new User();
         modelAndView.addObject("user", user);
-        modelAndView.setViewName("registration");
+        modelAndView.setViewName("index");
         return modelAndView;
     }
 
     @PostMapping("/register")
     public ModelAndView register(@ModelAttribute("user") @Validated User user, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("register");
+        modelAndView.setViewName("index");
 
         if (bindingResult.hasErrors()) {
             System.out.println("errors : " + bindingResult);
@@ -46,7 +45,7 @@ public class WebController {
             try {
                 System.out.println("User reg form " + user);
                 userService.registeUser(user);
-                modelAndView.setViewName("register_result");
+                modelAndView.setViewName("register");
             } catch (Exception e) {
                 e.getStackTrace();
             }

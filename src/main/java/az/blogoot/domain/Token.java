@@ -5,7 +5,5 @@ package az.blogoot.domain;
  */
 public class Token {
     private long id;
-    private String token;
-    private
-    
+    private String token;    
 }

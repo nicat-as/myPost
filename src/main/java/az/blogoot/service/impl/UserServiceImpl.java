@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
          //1. password encryption
         String encryptedPassword = passwordService.encrypt(user.getPassword());
         user.setPassword(encryptedPassword);
+        System.out.println(user.getPassword());
         
         //2. add user to db
         userRepository.addUser(user);
