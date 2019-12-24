@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import az.blogoot.domain.User;
 import az.blogoot.service.UserService;
+import az.blogoot.util.TokenGenerator;
 
 /**
  * WebController
@@ -50,6 +51,7 @@ public class WebController {
                 e.getStackTrace();
             }
         }
+
         return modelAndView;
     }
 
