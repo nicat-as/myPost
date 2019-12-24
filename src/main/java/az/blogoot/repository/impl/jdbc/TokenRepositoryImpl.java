@@ -26,13 +26,14 @@ public class TokenRepositoryImpl implements TokenRepository {
     @Override
     public Token saveToken(Token token) {
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("name", token.getToken()).addValue("user", token.getUser().getId())
+        params.addValue("token", token.getToken()).addValue("user", token.getUser().getId())
                 .addValue("generationDate", token.getGenerationDate())
                 .addValue("expirationDate", token.getExpirationDate());
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         int count = jdbcTemplate.update(TokenSql.SAVE_TOKEN, params, keyHolder);
+        System.out.println(count);
         if (count > 0) {
             token.getUser().setId(keyHolder.getKey().longValue());
         } else {

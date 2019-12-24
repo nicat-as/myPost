@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import az.blogoot.domain.User;
 import az.blogoot.service.UserService;
-import az.blogoot.util.TokenGenerator;
 
 /**
  * WebController
@@ -46,7 +45,7 @@ public class WebController {
             try {
                 System.out.println("User reg form " + user);
                 userService.registeUser(user);
-                modelAndView.setViewName("register");
+                modelAndView.setViewName("register_result");
             } catch (Exception e) {
                 e.getStackTrace();
             }

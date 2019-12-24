@@ -1,7 +1,6 @@
 package az.blogoot.domain;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**

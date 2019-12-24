@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
         System.out.println(user.getPassword());
         
         //2. add user to db
-        userRepository.addUser(user);
+        user = userRepository.addUser(user);
         
         //3. generate token
         Token token = tokenService.generateToken(user);        
