@@ -1,5 +1,7 @@
 package az.blogoot.service;
 
+import java.util.Optional;
+
 import az.blogoot.domain.User;
 
 /**
@@ -7,5 +9,7 @@ import az.blogoot.domain.User;
  */
 public interface UserService {
        
-    User registeUser(User user);
+    User registerUser(User user);
+    Optional<User> getUserByEmail(String email);
+    
 }

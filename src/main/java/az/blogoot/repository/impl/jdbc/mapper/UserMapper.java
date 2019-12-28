@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import az.blogoot.domain.User;
+import az.blogoot.domain.UserStatus;
 
 /**
  * UserMapper
@@ -22,6 +23,7 @@ public class UserMapper implements RowMapper<User> {
         user.setLastname(rs.getString("lastname"));
         user.setEmail(rs.getString("email"));
         user.setPassword(rs.getString("password"));
+        user.setUserStatus(UserStatus.fromValue(rs.getInt("user_status")));
         
         return user;
     }

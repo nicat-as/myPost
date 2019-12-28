@@ -1,5 +1,8 @@
 package az.blogoot.repository.impl.jdbc;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import az.blogoot.domain.User;
 import az.blogoot.repository.UserRepository;
+import az.blogoot.repository.impl.jdbc.mapper.UserMapper;
 import az.blogoot.repository.impl.jdbc.sql.UserSql;
 
 /**
@@ -19,6 +23,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
+
+    @Autowired 
+    private UserMapper userMapper;
 
     @Override
     public User addUser(User user) {
@@ -38,6 +45,21 @@ public class UserRepositoryImpl implements UserRepository {
         }
 
         return user;
+    }
+
+    @Override
+    public User checkUserByEmail(String email) {
+
+        MapSqlParameterSource params = new MapSqlParameterSource()
+        .addValue("email", email);
+
+        List<User> user =  jdbcTemplate.query(UserSql.CHECK_USER_BY_EMAIL, params, userMapper);
+        
+        if(!user.isEmpty()){
+            return user.get(0);
+        }else{
+            return null;
+        }
     }
 
 }

@@ -1,5 +1,7 @@
 package az.blogoot.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +22,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordService passwordService;
 
-
     @Autowired
     private UserRepository userRepository;
 
@@ -29,30 +30,33 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User registeUser(User user) {
+    public User registerUser(User user) {
         /**
-         * 1. password encryption
-         * 2. add user to db 
-         * 3.generate token
-         * 4. add to token 
-         * 5. add token to db
-         * 6. generate email
+         * 1. password encryption 2. add user to db 3.generate token 4. add to token 5.
+         * add token to db 6. generate email
          */
 
-         //1. password encryption
+        // 1. password encryption
         String encryptedPassword = passwordService.encrypt(user.getPassword());
         user.setPassword(encryptedPassword);
         System.out.println(user.getPassword());
-        
-        //2. add user to db
+
+        // 2. add user to db
         user = userRepository.addUser(user);
-        
-        //3. generate token
-        Token token = tokenService.generateToken(user);        
-        
-        //4.save token
+
+        // 3. generate token
+        Token token = tokenService.generateToken(user);
+
+        // 4.save token
         tokenService.saveToken(token);
 
+        return user;
+    }
+
+    @Override
+    public Optional<User> getUserByEmail(String email) {
+        Optional<User> user = Optional.empty();
+        user = Optional.of(userRepository.checkUserByEmail(email));
         return user;
     }
 
