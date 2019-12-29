@@ -35,7 +35,7 @@ public class EmailServiceimpl implements EmailService {
     public Email generateEmail(Token token) {
         Email email = new Email();
         User user = token.getUser();
-        String url = "http://localhost:8080/activate?token=" + token.getToken();
+        String url = "http://10.251.82.62:8080/activate?token=" + token.getToken();
 
         email.setFrom(from);
         email.setTo(user.getEmail());

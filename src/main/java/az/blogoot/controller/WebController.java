@@ -127,9 +127,15 @@ public class WebController {
         boolean isActive = userService.activateUser(token);
         if (isActive) {
             modelAndView.setViewName("redirect:/login");
-        } else {
-            
-        }
+        } 
+
+        return modelAndView;
+    }
+
+    @GetMapping("/resend")
+    public ModelAndView getResend(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("resend");
         return modelAndView;
     }
 

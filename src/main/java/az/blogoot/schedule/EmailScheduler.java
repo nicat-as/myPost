@@ -23,7 +23,7 @@ public class EmailScheduler {
     private EmailService emailService;
 
 
-    @Scheduled(fixedRate = 5000 )
+    @Scheduled(fixedRate = 60 * 1000 )
     public void sendEmailNotification(){
         List<Email> emailList = emailService.getEmailList(limit);
 
