@@ -10,4 +10,5 @@ public interface TokenService {
 
     Token generateToken(User user);
     Token saveToken (Token token);
+    
 }

@@ -35,7 +35,7 @@ public class TokenRepositoryImpl implements TokenRepository {
         int count = jdbcTemplate.update(TokenSql.SAVE_TOKEN, params, keyHolder);
         System.out.println(count);
         if (count > 0) {
-            token.getUser().setId(keyHolder.getKey().longValue());
+            token.setId(keyHolder.getKey().longValue());
         } else {
             throw new RuntimeException("Token couldn't add to db " + token);
         }

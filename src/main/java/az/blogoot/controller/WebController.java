@@ -1,10 +1,7 @@
 package az.blogoot.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -15,7 +12,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -85,7 +81,7 @@ public class WebController {
         modelAndView.setViewName("login");
 
         Optional<User> user = userService.getUserByEmail(email);
-        System.out.println("User finded: " +user.get());
+        System.out.println("User finded: " + user.get());
         String message = "";
 
         if (user.isPresent()) {
@@ -113,14 +109,28 @@ public class WebController {
 
     }
 
-    @GetMapping(value="/logout")
+    @GetMapping(value = "/logout")
     public String getLogout(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        if(session != null){
+        if (session != null) {
             session.invalidate();
         }
         return "login";
     }
-    
+
+    @GetMapping("/activate")
+    public ModelAndView activate(@RequestParam("token") String token) {
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/resend");
+                
+        boolean isActive = userService.activateUser(token);
+        if (isActive) {
+            modelAndView.setViewName("redirect:/login");
+        } else {
+            
+        }
+        return modelAndView;
+    }
 
 }

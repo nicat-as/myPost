@@ -1,7 +1,5 @@
 package az.blogoot.repository;
 
-import java.util.Optional;
-
 import az.blogoot.domain.User;
 
 /**
@@ -12,4 +10,6 @@ public interface UserRepository {
     User addUser(User user);
 
     User checkUserByEmail(String email);
+
+    boolean activateUser(String token);
 }

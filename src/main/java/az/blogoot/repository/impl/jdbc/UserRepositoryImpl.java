@@ -1,7 +1,6 @@
 package az.blogoot.repository.impl.jdbc;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -11,6 +10,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import az.blogoot.domain.User;
+import az.blogoot.domain.UserStatus;
 import az.blogoot.repository.UserRepository;
 import az.blogoot.repository.impl.jdbc.mapper.UserMapper;
 import az.blogoot.repository.impl.jdbc.sql.UserSql;
@@ -24,7 +24,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
-    @Autowired 
+    @Autowired
     private UserMapper userMapper;
 
     @Override
@@ -38,10 +38,10 @@ public class UserRepositoryImpl implements UserRepository {
 
         int count = jdbcTemplate.update(UserSql.ADD_USER, params, keyHolder);
 
-        if(count>0){
+        if (count > 0) {
             user.setId(keyHolder.getKey().longValue());
-        }else{
-            throw new RuntimeException("User not added = "+ user);
+        } else {
+            throw new RuntimeException("User not added = " + user);
         }
 
         return user;
@@ -50,16 +50,28 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User checkUserByEmail(String email) {
 
-        MapSqlParameterSource params = new MapSqlParameterSource()
-        .addValue("email", email);
+        MapSqlParameterSource params = new MapSqlParameterSource().addValue("email", email);
 
-        List<User> user =  jdbcTemplate.query(UserSql.CHECK_USER_BY_EMAIL, params, userMapper);
-        
-        if(!user.isEmpty()){
+        List<User> user = jdbcTemplate.query(UserSql.CHECK_USER_BY_EMAIL, params, userMapper);
+
+        if (!user.isEmpty()) {
             return user.get(0);
-        }else{
+        } else {
             return null;
         }
+    }
+
+    @Override
+    public boolean activateUser(String token) {
+        MapSqlParameterSource paramMap = new MapSqlParameterSource().addValue("token", token);
+
+        boolean isActive = false;
+
+        int count = jdbcTemplate.update(UserSql.ACTIVATE_USER, paramMap);
+        if (count > 0) {
+            isActive = true;
+        }
+        return isActive;
     }
 
 }

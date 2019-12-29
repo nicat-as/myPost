@@ -8,8 +8,11 @@ import az.blogoot.domain.User;
  * UserService
  */
 public interface UserService {
-       
+
     User registerUser(User user);
+
     Optional<User> getUserByEmail(String email);
-    
+
+    boolean activateUser(String token);
+
 }
