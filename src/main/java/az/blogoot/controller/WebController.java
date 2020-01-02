@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,7 @@ import az.blogoot.domain.UserStatus;
 import az.blogoot.service.PasswordService;
 import az.blogoot.service.UserService;
 import az.blogoot.utility.FormUtilit;
+import az.blogoot.validator.UserRegistrationValidator;
 
 /**
  * WebController
@@ -36,6 +39,19 @@ public class WebController {
 
     @Autowired
     private PasswordService passwordService;
+
+    @Autowired
+    private UserRegistrationValidator userRegistrationValidator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        Object target = binder.getTarget();
+        if (target != null) {
+            if (target.getClass().equals(RegistrationForm.class)) {
+                binder.setValidator(userRegistrationValidator);
+            }
+        }
+    }
 
     @GetMapping("/")
     public ModelAndView index() {
@@ -123,17 +139,17 @@ public class WebController {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/resend");
-                
+
         boolean isActive = userService.activateUser(token);
         if (isActive) {
             modelAndView.setViewName("redirect:/login");
-        } 
+        }
 
         return modelAndView;
     }
 
     @GetMapping("/resend")
-    public ModelAndView getResend(){
+    public ModelAndView getResend() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("resend");
         return modelAndView;
