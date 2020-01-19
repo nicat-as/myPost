@@ -1,5 +1,6 @@
 package az.blogoot.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import az.blogoot.domain.Email;
 import az.blogoot.domain.Token;
 import az.blogoot.domain.User;
+import az.blogoot.domain.UserRole;
 import az.blogoot.repository.UserRepository;
 import az.blogoot.service.EmailService;
 import az.blogoot.service.PasswordService;
@@ -49,14 +51,16 @@ public class UserServiceImpl implements UserService {
         // 2. add user to db
         user = userRepository.addUser(user);
 
+        userRepository.addRole(user.getId(), UserRole.USER.getValue());
+
         // 3. generate token
         Token token = tokenService.generateToken(user);
-        
+
         // 4.save token
         tokenService.saveToken(token);
 
         Email email = emailService.generateEmail(token);
-        
+
         emailService.saveEmail(email);
 
         return user;
@@ -72,6 +76,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean activateUser(String token) {
         return userRepository.activateUser(token);
+    }
+
+    @Override
+    public List<UserRole> getRoles(long userId) {
+        return userRepository.getRoles(userId);
     }
 
     

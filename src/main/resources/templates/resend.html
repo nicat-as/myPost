@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,21 +15,16 @@
     <title>Resend mail</title>
   </head>
   <body>
-    <div class="container h-100">
-      <div class="row h-50 justify-content-center align-items-center">
-        <form class="col-12">
+
+    <div class="card col-sm-3 my-5 mx-auto">
+      <div class="card-body">
+        <form th:action="@{/resend}">
           <div class="form-group">
-            <label for="formGroupExampleInput">Example label</label>
-            <input
-              type="text"
-              name="email"
-              class="form-control"
-              id="formGroupExampleInput"
-              placeholder="Your email"
-            />
+            <label for="email">Activation mail</label>
+            <input type="text" id="email" name="email" class="form-control" placeholder="Email">
           </div>
-        </form>
-      </div>
+          <button type="submit" class="btn btn-primary">Send</button>
+         </form>
     </div>
 
 

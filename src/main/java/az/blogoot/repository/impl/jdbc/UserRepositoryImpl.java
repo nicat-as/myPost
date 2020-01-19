@@ -10,8 +10,9 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import az.blogoot.domain.User;
-import az.blogoot.domain.UserStatus;
+import az.blogoot.domain.UserRole;
 import az.blogoot.repository.UserRepository;
+import az.blogoot.repository.impl.jdbc.mapper.RoleMapper;
 import az.blogoot.repository.impl.jdbc.mapper.UserMapper;
 import az.blogoot.repository.impl.jdbc.sql.UserSql;
 
@@ -26,6 +27,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
 
     @Override
     public User addUser(User user) {
@@ -72,6 +76,31 @@ public class UserRepositoryImpl implements UserRepository {
             isActive = true;
         }
         return isActive;
+    }
+
+    @Override
+    public void addRole(long user, int role) {
+        MapSqlParameterSource paramMap = new MapSqlParameterSource().addValue("user", user).addValue("role", role);
+
+        int count = jdbcTemplate.update(UserSql.ADD_ROLE, paramMap);
+        if (count <= 0) {
+            throw new RuntimeException("Role not added to user " + user + " and role " + role);
+        }
+
+    }
+
+    @Override
+    public List<UserRole> getRoles(long userId) {
+        MapSqlParameterSource params = new MapSqlParameterSource()
+        .addValue("id", userId);
+
+        List<UserRole> roleList = jdbcTemplate.query(UserSql.GET_ROLES, params, roleMapper);
+
+        if(roleList.isEmpty()){
+            throw new RuntimeException("there is no role for user " + userId);
+        }
+
+        return roleList;
     }
 
 }

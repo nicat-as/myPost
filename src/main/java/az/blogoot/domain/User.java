@@ -1,6 +1,8 @@
 package az.blogoot.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User
@@ -16,6 +18,7 @@ public class User extends Base implements Serializable {
     private String email;
     private String password;
     private UserStatus userStatus;
+    private List<UserRole> userRole;
 
     public User() {
         this.name = "";
@@ -23,9 +26,9 @@ public class User extends Base implements Serializable {
         this.email = "";
         this.password = "";
         this.userStatus = UserStatus.PENDING;
+        this.userRole = new ArrayList<>();
     }
 
-  
     public String getName() {
         return name;
     }
@@ -66,10 +69,18 @@ public class User extends Base implements Serializable {
         this.userStatus = userStatus;
     }
 
+    public List<UserRole> getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(List<UserRole> userRole) {
+        this.userRole = userRole;
+    }
+
     @Override
     public String toString() {
-        return "User [email=" + email + ", id=" + getId() + ", lastname=" + lastname + ", name=" + name + ", userStatus="
-                + userStatus + "]";
+        return "User [email=" + email + ", id=" + getId() + ", lastname=" + lastname + ", name=" + name
+                + ", userStatus=" + userStatus + "]";
     }
 
 }

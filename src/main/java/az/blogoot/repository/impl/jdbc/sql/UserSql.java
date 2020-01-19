@@ -14,5 +14,8 @@ public class UserSql {
 
     public static final String IS_DUPLICATE = "select count(id) from user where email= :email";
 
-    
+    public static final String ADD_ROLE = "insert into user_role (user_id, role_id) values (:user, :role)";
+
+    public static final String GET_ROLES = "select ur.role_id, r.page, r.priority from user_role ur inner join role r on r.id = ur.role_id where ur.user_id=:id order by r.priority";
+
 }

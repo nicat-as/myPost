@@ -70,6 +70,7 @@ public class WebController {
 
         if (bindingResult.hasErrors()) {
             System.out.println("errors : " + bindingResult);
+
         } else {
             try {
                 System.out.println("User reg form " + registrationForm);
@@ -90,6 +91,7 @@ public class WebController {
         return modelAndView;
     }
 
+    /*
     @PostMapping("/login")
     public ModelAndView postLogin(@RequestParam("email") String email, @RequestParam("password") String password,
             HttpServletRequest request) {
@@ -124,7 +126,9 @@ public class WebController {
         return modelAndView;
 
     }
+    */
 
+    /*
     @GetMapping(value = "/logout")
     public String getLogout(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -133,7 +137,7 @@ public class WebController {
         }
         return "login";
     }
-
+    */
     @GetMapping("/activate")
     public ModelAndView activate(@RequestParam("token") String token) {
 
@@ -154,5 +158,10 @@ public class WebController {
         modelAndView.setViewName("resend");
         return modelAndView;
     }
+
+  /*  @PostMapping("/resend")
+    public ModelAndView postResend(@RequestParam("email") String email){
+        
+    }*/
 
 }
